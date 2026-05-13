@@ -1,0 +1,16 @@
+# eval workspace artifacts produced by skill-creator
+*-workspace/
+iteration-*/
+benchmark.json
+benchmark.md
+feedback.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# logs
+*.log
+.trust-boundary.log
