@@ -3,6 +3,10 @@
 > Defense-in-depth for Claude Code against prompt injection delivered
 > through ingested content. Read/WebFetch/WebSearch/MCP outputs are
 > treated as **data**, never as **instructions**.
+>
+> Défense en profondeur pour Claude Code contre l'injection de prompt
+> via du contenu ingéré. Les sorties de Read/WebFetch/WebSearch/MCP
+> sont traitées comme des **données**, jamais comme des **instructions**.
 
 > ⚠️ **Experimental — v0.1.0.** This plugin is an early proof-of-concept.
 > It raises the bar against prompt injection but does **not** make Claude
