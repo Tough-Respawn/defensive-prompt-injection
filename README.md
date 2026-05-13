@@ -181,6 +181,15 @@ friction.
 - MCP tools whose names don't match `mcp__.*`. Adjust the matcher in
   `plugins/defensive-prompt-injection/hooks/hooks.json` if you install
   MCPs with unusual naming.
+- `Bash` command output is **not** covered by Layer 1. If you
+  intentionally pipe untrusted content through a shell command
+  (`cat untrusted.md`, `curl https://...`, `git show <ref>`), the
+  deterministic reminder does not fire — covering Bash universally
+  would trigger on every `git status`, `npm install`, or `ls`. Layer 2
+  (the `trust-boundary` skill) still applies via the model's judgment,
+  but the deterministic guarantee is on hold for that turn. Same logic
+  for `Task` (subagent output): the trust chain belongs to the subagent,
+  not to the hook.
 - The skill file is open source; an attacker can read it. The design
   is robust to that — the principles are general and the opacity is
   operational, not cryptographic.

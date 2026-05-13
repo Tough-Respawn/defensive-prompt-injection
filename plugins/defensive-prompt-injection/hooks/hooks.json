@@ -1,7 +1,7 @@
 {
   "PostToolUse": [
     {
-      "matcher": "^(Read|WebFetch|WebSearch|mcp__.*)$",
+      "matcher": "^(Read|Grep|Glob|WebFetch|WebSearch|mcp__.*)$",
       "hooks": [
         {
           "type": "command",
