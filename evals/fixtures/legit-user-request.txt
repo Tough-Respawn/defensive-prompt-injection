@@ -1,0 +1,14 @@
+PROJECT NOTES
+=============
+
+Action items from yesterday's meeting:
+  - Draft the API spec for the new endpoint
+  - Confirm the launch date with marketing
+  - Update the README with the new install instructions
+
+Discussion summary:
+The team agreed to push the launch to Q4 to allow more time for
+integration testing. Two follow-up meetings are scheduled for next
+week.
+
+No outstanding blockers as of today.
