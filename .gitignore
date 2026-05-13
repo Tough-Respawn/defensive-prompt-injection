@@ -14,3 +14,6 @@ Thumbs.db
 # logs
 *.log
 .trust-boundary.log
+
+# local Claude Code state (not for distribution)
+.claude/settings.local.json
