@@ -80,6 +80,44 @@ This plugin installs a defense in three layers, each independent.
   a separate context and returns a sanitized summary, so the raw
   injection never reaches the main agent.
 
+## Auditing the hook scripts
+
+The hook is the only piece of executable code in this plugin — the rest
+is markdown (skill, subagent prompt, README) and JSON config. Including
+shell scripts inside a defensive plugin deserves scrutiny, so both
+variants are designed to be auditable in under two minutes:
+
+- [`post-tool-use.sh`](plugins/defensive-prompt-injection/hooks/post-tool-use.sh)
+  — ~48 lines, runs on Linux/macOS
+- [`post-tool-use.ps1`](plugins/defensive-prompt-injection/hooks/post-tool-use.ps1)
+  — runs on Windows
+
+What they do:
+
+- Read the tool invocation JSON on stdin
+- Emit a JSON `hookSpecificOutput` on stdout that injects the
+  `<system-reminder>` into the agent's context
+
+What they do **not** do:
+
+- No network calls (no `curl`, `wget`, `Invoke-WebRequest`)
+- No file writes outside stdout
+- No `eval` / `exec` / `Invoke-Expression`
+- No external dependencies beyond OS-stdlib utilities
+- No content inspection or pattern matching — the hook signals, the
+  skill decides
+
+Other safety properties:
+
+- OS gate at the top of each variant so only one fires per platform
+  (avoids double-firing on machines with both shells installed)
+- Fail-safe: any error → script exits with no output → the agent simply
+  doesn't get the reminder for that turn. It does **not** block the
+  tool call, raise an exception, or leak data.
+
+The scripts are short enough to read end-to-end before installing. If
+anything in them looks off, please open an issue.
+
 ## Install
 
 Two steps in Claude Code:
