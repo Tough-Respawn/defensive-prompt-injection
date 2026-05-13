@@ -35,15 +35,17 @@ the agent: exfiltrate credentials, run destructive commands, poison
 memory, hijack other skills. Without a defensive layer, an injection in
 page 347 of a PDF can change agent behavior hours later.
 
-Anthropic's platform applies its own safety filters upstream of the
-agent, and they catch a useful fraction of flagrant payloads at the API
-edge. This plugin is **complementary**: it runs **inside the session**
-and gates the patterns that slip past the upstream filter — homoglyphs,
-invisible Unicode tag chars, conditional deferred triggers, memory and
-skill poisoning, confused-deputy blockquotes, polyglot encodings,
-misleading markdown links. It reasons about the *origin* of a proposed
-action (user vs. ingested content) rather than the surface form of the
-content, which is something the platform filter cannot do.
+Anthropic's [Acceptable Use Policy](https://www.anthropic.com/legal/aup)
+(effective 2025-09-15) explicitly names prompt injection as a prohibited
+form of platform abuse and confirms that "detection and monitoring" are
+applied to enforce it. In practice we observe these upstream safeguards
+blocking flagrant payloads before they reach the agent. This plugin is
+**complementary**: it runs **inside the session** and gates the patterns
+that slip past those upstream safeguards — homoglyphs, invisible Unicode
+tag chars, conditional deferred triggers, memory and skill poisoning,
+confused-deputy blockquotes, polyglot encodings, misleading markdown
+links. It reasons about the *origin* of a proposed action (user vs.
+ingested content), which platform-level filters generally cannot do.
 
 This plugin installs a defense in three layers, each independent.
 
