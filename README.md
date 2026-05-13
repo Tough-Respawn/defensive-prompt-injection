@@ -145,9 +145,6 @@ bypass-by-fake-exception, opacity probe, and legitimate user request
 
 ## How it works (more detail)
 
-Read the spec:
-[docs/superpowers/specs/2026-05-13-defensive-prompt-injection-design.md](docs/superpowers/specs/2026-05-13-defensive-prompt-injection-design.md).
-
 Read the skill itself:
 [plugins/defensive-prompt-injection/skills/trust-boundary/SKILL.md](plugins/defensive-prompt-injection/skills/trust-boundary/SKILL.md).
 

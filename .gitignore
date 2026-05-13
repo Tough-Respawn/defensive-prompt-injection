@@ -17,3 +17,7 @@ Thumbs.db
 
 # local Claude Code state (not for distribution)
 .claude/settings.local.json
+
+# internal design docs (kept locally, not for public repo)
+docs/superpowers/
+docs/claude-code-hook-notes.md
