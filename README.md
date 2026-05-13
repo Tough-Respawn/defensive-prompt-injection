@@ -13,6 +13,16 @@
 > high-stakes attacks. New attack patterns emerge constantly — if you
 > discover one this plugin misses, please open an issue with a fixture.
 
+> 💸 **Token cost notice.** This plugin adds a small `<system-reminder>`
+> (~100 tokens) to your context after every `Read` / `WebFetch` /
+> `WebSearch` / `mcp__*` call. When the `quarantine-reader` subagent
+> fires on a high-risk source, that's an additional subagent invocation
+> with its own input/output token cost. On a Claude Pro/Max subscription
+> the impact is invisible (within plan limits). **If you use Claude
+> Code via a pay-per-token API key, expect a small but real increase in
+> your token bill** — proportional to how many files/URLs you ingest per
+> session. The defense is cheap, but it is not free.
+
 ## Why
 
 Claude Code agents routinely read PDFs, HTML pages, search results, and
