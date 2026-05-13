@@ -4,6 +4,15 @@
 > through ingested content. Read/WebFetch/WebSearch/MCP outputs are
 > treated as **data**, never as **instructions**.
 
+> ⚠️ **Experimental — v0.1.0.** This plugin is an early proof-of-concept.
+> It raises the bar against prompt injection but does **not** make Claude
+> Code immune. Treat it as a defense-in-depth *layer*, not a guarantee.
+> **Stay vigilant**: review what the agent is about to do before
+> approving any side-effect action, verify hook activation in fresh
+> sessions, and don't rely on the plugin alone to protect against
+> high-stakes attacks. New attack patterns emerge constantly — if you
+> discover one this plugin misses, please open an issue with a fixture.
+
 ## Why
 
 Claude Code agents routinely read PDFs, HTML pages, search results, and
