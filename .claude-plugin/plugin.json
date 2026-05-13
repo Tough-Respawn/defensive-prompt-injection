@@ -1,0 +1,7 @@
+{
+  "name": "defensive-prompt-injection",
+  "version": "0.1.0",
+  "description": "Defense-in-depth against prompt injection from ingested content. Treats Read/WebFetch/WebSearch/MCP outputs as data, never as instructions.",
+  "author": { "name": "Amine Harrak" },
+  "license": "MIT"
+}

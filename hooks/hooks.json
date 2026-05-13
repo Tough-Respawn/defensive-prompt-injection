@@ -1,0 +1,19 @@
+{
+  "PostToolUse": [
+    {
+      "matcher": "^(Read|WebFetch|WebSearch|mcp__.*)$",
+      "hooks": [
+        {
+          "type": "command",
+          "shell": "bash",
+          "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-use.sh\""
+        },
+        {
+          "type": "command",
+          "shell": "powershell",
+          "command": "& \"${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-use.ps1\""
+        }
+      ]
+    }
+  ]
+}
