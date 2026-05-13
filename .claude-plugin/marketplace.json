@@ -1,0 +1,23 @@
+{
+  "name": "defensive-prompt-injection",
+  "owner": {
+    "name": "Amine Harrak"
+  },
+  "description": "Marketplace for the defensive-prompt-injection plugin.",
+  "plugins": [
+    {
+      "name": "defensive-prompt-injection",
+      "source": "./plugins/defensive-prompt-injection",
+      "description": "Defense-in-depth against prompt injection from ingested content. Treats Read/WebFetch/WebSearch/MCP outputs as data, never as instructions.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Amine Harrak"
+      },
+      "license": "MIT",
+      "homepage": "https://github.com/Tough-Respawn/defensive-prompt-injection",
+      "repository": "https://github.com/Tough-Respawn/defensive-prompt-injection",
+      "category": "security",
+      "tags": ["security", "prompt-injection", "hooks", "skills", "defense-in-depth"]
+    }
+  ]
+}

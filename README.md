@@ -47,8 +47,11 @@ This plugin installs a defense in three layers, each independent.
 
 ## Install
 
+Two steps in Claude Code:
+
 ```
-/plugin install <github-user>/defensive-prompt-injection
+/plugin marketplace add Tough-Respawn/defensive-prompt-injection
+/plugin install defensive-prompt-injection@defensive-prompt-injection
 ```
 
 That's it. The plugin auto-registers its hook, skill, and subagent —
@@ -57,7 +60,8 @@ no manual edits to `~/.claude/settings.json`.
 To install from a local clone:
 
 ```
-/plugin install <path-to-local-clone>
+/plugin marketplace add <path-to-local-clone>
+/plugin install defensive-prompt-injection@defensive-prompt-injection
 ```
 
 ## Demo
@@ -95,7 +99,8 @@ for your confirmation.
 - Out-of-band compromise: leaked API keys, malicious repo clones,
   compromised developer machines.
 - MCP tools whose names don't match `mcp__.*`. Adjust the matcher in
-  `hooks/hooks.json` if you install MCPs with unusual naming.
+  `plugins/defensive-prompt-injection/hooks/hooks.json` if you install
+  MCPs with unusual naming.
 - The skill file is open source; an attacker can read it. The design
   is robust to that — the principles are general and the opacity is
   operational, not cryptographic.
@@ -121,7 +126,7 @@ Read the spec:
 [docs/superpowers/specs/2026-05-13-defensive-prompt-injection-design.md](docs/superpowers/specs/2026-05-13-defensive-prompt-injection-design.md).
 
 Read the skill itself:
-[skills/trust-boundary/SKILL.md](skills/trust-boundary/SKILL.md).
+[plugins/defensive-prompt-injection/skills/trust-boundary/SKILL.md](plugins/defensive-prompt-injection/skills/trust-boundary/SKILL.md).
 
 ## License
 
