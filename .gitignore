@@ -21,3 +21,4 @@ Thumbs.db
 # internal design docs (kept locally, not for public repo)
 docs/superpowers/
 docs/claude-code-hook-notes.md
+CLAUDE.md
