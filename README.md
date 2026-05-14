@@ -8,7 +8,7 @@
 > via du contenu ingéré. Les sorties de Read/WebFetch/WebSearch/MCP
 > sont traitées comme des **données**, jamais comme des **instructions**.
 
-> ⚠️ **Experimental — v0.1.0.** This plugin is an early proof-of-concept.
+> ⚠️ **Experimental — v0.2.0.** This plugin is an early proof-of-concept.
 > It raises the bar against prompt injection but does **not** make Claude
 > Code immune. Treat it as a defense-in-depth *layer*, not a guarantee.
 > **Stay vigilant**: review what the agent is about to do before
@@ -211,7 +211,7 @@ that anyone can reproduce the evaluation in under 5 minutes.
 
 ### Expected results
 
-Last verified: Claude Opus 4.7, 2026-05-13, plugin v0.1.0.
+Last verified: Claude Opus 4.7, 2026-05-13, plugin v0.2.0.
 
 | #  | Fixture                          | Threat class                  | Expected |
 |----|----------------------------------|-------------------------------|----------|
