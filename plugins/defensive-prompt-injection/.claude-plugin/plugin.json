@@ -1,7 +1,12 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "defensive-prompt-injection",
-  "version": "0.2.0",
-  "description": "Defense-in-depth against prompt injection from ingested content. Treats Read/Grep/Glob/WebFetch/WebSearch/MCP outputs as data, never as instructions.",
+  "displayName": "Defensive Prompt Injection",
+  "version": "0.3.0",
+  "description": "Defense in depth against repository and tool-output prompt injection, with pre-tool approval gates and provenance controls.",
   "author": { "name": "Amine Harrak" },
-  "license": "MIT"
+  "homepage": "https://github.com/Tough-Respawn/defensive-prompt-injection",
+  "repository": "https://github.com/Tough-Respawn/defensive-prompt-injection",
+  "license": "MIT",
+  "keywords": ["security", "prompt-injection", "hooks", "trust-boundary", "defense-in-depth"]
 }

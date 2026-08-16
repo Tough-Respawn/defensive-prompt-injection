@@ -4,6 +4,53 @@ All notable changes to this plugin are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses [semantic versioning](https://semver.org/).
 
+## [0.3.0] — 2026-08-16
+
+### Added
+
+- `PreToolUse` approval gates for recognizable sensitive reads, security
+  persistence, network-capable/destructive shell operations, inline
+  interpreters, suspicious WebFetch payloads, delegated risky prompts, and
+  mutating MCP tools.
+- Current Claude Code lifecycle coverage for `SessionStart`,
+  `UserPromptSubmit`, `UserPromptExpansion`, `PostToolBatch`,
+  `SubagentStart`, `SubagentStop`, `MessageDisplay`, `Stop`,
+  `InstructionsLoaded`, `ConfigChange`, `DirectoryAdded`, `FileChanged`,
+  `Elicitation`, and `ElicitationResult`.
+- Assistant-output protection for external Markdown/HTML images, including a
+  conservative block on reference-style images that can span streaming
+  batches.
+- Metadata-only hook auditing under `${CLAUDE_PLUGIN_DATA}/audit.jsonl`.
+- Automated hook regression suite and six additional manual evaluations for
+  repository instruction poisoning, shell output, `@` references, subagent
+  trust chains, Unicode obfuscation, and direct user security audits.
+
+### Changed
+
+- Corrected `hooks/hooks.json` to use the documented top-level `hooks` object.
+- Replaced per-tool `PostToolUse` reminders with one `PostToolBatch` reminder,
+  covering shell, MCP, LSP, Agent, failures, and batched calls without duplicate
+  context for parallel tools.
+- Replaced the old post-use scripts with native `guard.sh` and `guard.ps1`
+  implementations and one auto-selected shell dispatcher.
+- Expanded the trust-boundary skill and quarantine reader to cover repository
+  instructions, imports, project skills, `@` insertion, tool output, and
+  delegated trust chains.
+- Aligned marketplace and plugin manifest versions at `0.3.0`, added the
+  official manifest schema, and removed `CLAUDE.md` from `.gitignore` so a
+  security-relevant repository instruction file cannot be hidden accidentally.
+- Replaced the old opacity framing with a provenance distinction: embedded
+  probes are not completed, while direct user audits are answered fully.
+
+### Security limitations clarified
+
+- `InstructionsLoaded` cannot block instruction loading, `@` insertion has no
+  `PreToolUse` event, `MessageDisplay` is display-only, and signature-based
+  shell/MCP classification is not a semantic data-flow proof.
+- Quarantine isolation only applies when the source is delegated before the
+  main agent reads it. Claude Code permissions and OS sandboxing remain
+  necessary containment layers.
+
 ## [0.2.0] — 2026-05-13
 
 ### Added

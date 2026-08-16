@@ -8,8 +8,8 @@
     {
       "name": "defensive-prompt-injection",
       "source": "./plugins/defensive-prompt-injection",
-      "description": "Defense-in-depth against prompt injection from ingested content. Treats Read/WebFetch/WebSearch/MCP outputs as data, never as instructions.",
-      "version": "0.1.0",
+      "description": "Defense in depth against repository and tool-output prompt injection, with pre-tool approval gates and provenance controls.",
+      "version": "0.3.0",
       "author": {
         "name": "Amine Harrak"
       },

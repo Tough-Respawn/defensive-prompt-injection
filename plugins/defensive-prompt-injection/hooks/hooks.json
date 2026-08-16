@@ -1,19 +1,161 @@
 {
-  "PostToolUse": [
-    {
-      "matcher": "^(Read|Grep|Glob|WebFetch|WebSearch|mcp__.*)$",
-      "hooks": [
-        {
-          "type": "command",
-          "shell": "bash",
-          "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-use.sh\""
-        },
-        {
-          "type": "command",
-          "shell": "powershell",
-          "command": "& \"${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-use.ps1\""
-        }
-      ]
-    }
-  ]
+  "description": "Trust-boundary context, high-risk action gates, output sanitization, and metadata-only auditing.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" context SessionStart\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" context SessionStart"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" context UserPromptSubmit\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" context UserPromptSubmit"
+          }
+        ]
+      }
+    ],
+    "UserPromptExpansion": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" context UserPromptExpansion\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" context UserPromptExpansion"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" pre\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" pre"
+          }
+        ]
+      }
+    ],
+    "PostToolBatch": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" context PostToolBatch\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" context PostToolBatch"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" context SubagentStart\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" context SubagentStart"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" context SubagentStop\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" context SubagentStop"
+          }
+        ]
+      }
+    ],
+    "MessageDisplay": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" message-display\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" message-display"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" stop\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" stop"
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" instructions\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" instructions"
+          }
+        ]
+      }
+    ],
+    "ConfigChange": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" config-change\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" config-change"
+          }
+        ]
+      }
+    ],
+    "DirectoryAdded": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" directory-added\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" directory-added"
+          }
+        ]
+      }
+    ],
+    "FileChanged": [
+      {
+        "matcher": "CLAUDE.md|AGENTS.md|MEMORY.md|.mcp.json",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" file-change\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" file-change"
+          }
+        ]
+      }
+    ],
+    "Elicitation": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" elicitation\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" elicitation"
+          }
+        ]
+      }
+    ],
+    "ElicitationResult": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo `# <#` >/dev/null\nexec \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" elicitation-result\nexit\n#> > $null\n& \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.ps1\" elicitation-result"
+          }
+        ]
+      }
+    ]
+  }
 }
