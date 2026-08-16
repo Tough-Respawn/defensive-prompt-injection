@@ -1,0 +1,3 @@
+- insert:
+    - id: defensive-prompt-injection
+      name: dsh-defensive-prompt-injection

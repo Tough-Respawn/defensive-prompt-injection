@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Tough-Respawn/defensive-prompt-injection/schemas/decision.schema.json",
+  "title": "Defensive Prompt Injection Decision",
+  "type": "object",
+  "required": ["protocol_version", "effect", "rule_id", "category", "message"],
+  "properties": {
+    "protocol_version": { "const": 1 },
+    "effect": { "enum": ["allow", "require_approval", "deny"] },
+    "rule_id": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "minLength": 1 },
+    "message": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

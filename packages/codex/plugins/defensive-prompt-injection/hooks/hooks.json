@@ -1,0 +1,74 @@
+{
+  "description": "Trust-boundary context and deterministic high-risk action gates.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/hooks/guard.py\" context session-start",
+            "commandWindows": "py -3 \"%PLUGIN_ROOT%\\hooks\\guard.py\" context session-start",
+            "timeout": 10,
+            "additionalContextLimit": 600
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/hooks/guard.py\" context user-prompt-submit",
+            "commandWindows": "py -3 \"%PLUGIN_ROOT%\\hooks\\guard.py\" context user-prompt-submit",
+            "timeout": 10,
+            "additionalContextLimit": 400
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/hooks/guard.py\" context subagent-start",
+            "commandWindows": "py -3 \"%PLUGIN_ROOT%\\hooks\\guard.py\" context subagent-start",
+            "timeout": 10,
+            "additionalContextLimit": 400
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/hooks/guard.py\" pre",
+            "commandWindows": "py -3 \"%PLUGIN_ROOT%\\hooks\\guard.py\" pre",
+            "timeout": 10,
+            "statusMessage": "Checking the trust boundary"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${PLUGIN_ROOT}/hooks/guard.py\" context post-tool-use",
+            "commandWindows": "py -3 \"%PLUGIN_ROOT%\\hooks\\guard.py\" context post-tool-use",
+            "timeout": 10,
+            "additionalContextLimit": 400
+          }
+        ]
+      }
+    ]
+  }
+}

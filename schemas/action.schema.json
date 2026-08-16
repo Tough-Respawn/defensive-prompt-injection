@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Tough-Respawn/defensive-prompt-injection/schemas/action.schema.json",
+  "title": "Defensive Prompt Injection Canonical Action",
+  "type": "object",
+  "required": ["protocol_version", "harness", "phase", "tool_name", "kind", "arguments", "provenance", "valid"],
+  "properties": {
+    "protocol_version": { "const": 1 },
+    "harness": { "type": "string", "minLength": 1 },
+    "phase": { "const": "pre_action" },
+    "tool_name": { "type": "string", "minLength": 1 },
+    "kind": {
+      "enum": [
+        "filesystem.read",
+        "filesystem.write",
+        "process.exec",
+        "network.request",
+        "agent.delegate",
+        "mcp.call",
+        "function.call",
+        "unknown"
+      ]
+    },
+    "arguments": { "type": "object" },
+    "provenance": { "enum": ["user", "repository", "tool", "web", "agent", "unknown"] },
+    "valid": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

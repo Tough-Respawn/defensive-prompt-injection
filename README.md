@@ -1,12 +1,13 @@
 # defensive-prompt-injection
 
-Defense in depth for Claude Code when repositories, tool results, web pages,
-MCP/LSP servers, subagents, or prompt expansions contain instructions that the
-user did not authorize.
+Defense in depth for coding-agent harnesses when repositories, tool results,
+web pages, MCP/LSP servers, subagents, or prompt expansions contain
+instructions that the user did not authorize.
 
-> Experimental — v0.3.0. This plugin reduces prompt-injection risk; it does
-> not make an agent immune. Keep Claude Code permissions and sandboxing
-> enabled, review approval prompts, and treat high-stakes environments as a
+> Experimental. The native Claude Code package is v0.3.0; the harness-neutral
+> v0.4 engine and non-Claude adapters are a development preview. This project
+> reduces prompt-injection risk; it does not make an agent immune. Keep native
+> permissions and sandboxing enabled and treat high-stakes environments as a
 > separate security boundary.
 
 ## Why this exists
@@ -52,7 +53,41 @@ The layers have different strengths:
 - Claude Code permissions and OS sandboxing remain the final containment
   layers.
 
-## Covered surfaces
+### Harness-neutral engine
+
+The v0.4 development tree separates the deterministic policy from native hook
+wire formats:
+
+```text
+Native hook payload
+  -> harness adapter
+  -> canonical Action v1
+  -> shared policy engine
+  -> allow | require_approval | deny
+  -> native hook response
+```
+
+The canonical schemas live in [`schemas/`](schemas/) and the shipped-adapter
+coverage matrix in [`harnesses.json`](harnesses.json). A harness that cannot
+force an approval must map `require_approval` to `deny`; it must never silently
+allow the action.
+
+| Harness | Adapter | Approval behavior |
+|---|---|---|
+| Claude Code | Native v0.3 plugin; canonical adapter in v0.4 | `require_approval` becomes `ask` |
+| Codex | [`packages/codex`](packages/codex/) | Falls back to `deny` because `PreToolUse` cannot currently force `ask` |
+| OpenCode | [`packages/opencode`](packages/opencode/) | Experimental V2 adapter; blocks when approval is required |
+| DeepSeek Harness (`dsh`) | [`packages/deepseek-harness`](packages/deepseek-harness/) | Native `tools/pre-execute`; uses `ask`, whose unavailable-approval path is denied by the harness |
+| CodeWhale / DeepSeek-TUI | [`packages/codewhale`](packages/codewhale/) | Interactive TUI only; defaults to `deny`, and optional `ask` is unsafe in Full Access |
+| DeepSeek API tool loops | [`packages/deepseek-api`](packages/deepseek-api/) | The host application supplies approval UI or fails closed |
+
+DeepSeek now publishes an official, separate agent harness named DeepSeek
+Harness (`dsh`). The CodeWhale adapter still covers the independent community
+project formerly named DeepSeek-TUI, while the DeepSeek API adapter covers
+application-owned function-calling loops. The bare adapter name `deepseek` is
+rejected as ambiguous; use `deepseek-harness`, `dsh`, or `deepseek-api`.
+
+## Claude Code covered surfaces
 
 | Surface | Hook or component | Behavior |
 |---|---|---|
@@ -82,8 +117,9 @@ The native hook asks for user approval when it recognizes:
 
 - reads of common credential, private-key, authentication, environment, and
   secret paths;
-- writes to Claude/Codex settings, rules, skills, agents, commands, hooks,
-  memory, `CLAUDE.md`, `AGENTS.md`, MCP config, or plugin manifests;
+- writes to Claude/Codex/DeepSeek Harness settings, rules, profiles, skills,
+  agents, commands, hooks, memory, instruction files, MCP config, or plugin
+  manifests;
 - network-capable shell commands, environment enumeration, inline interpreter
   execution, destructive commands, force operations, and permission weakening;
 - WebFetch URLs with query keys commonly used as data or secret payloads;
@@ -127,6 +163,8 @@ Records contain only timestamp, event/category, and tool class.
 
 ## Install
 
+### Claude Code
+
 In Claude Code:
 
 ```text
@@ -149,12 +187,42 @@ This release targets the current Claude Code hook schema documented in August
 as `PostToolBatch`, `UserPromptExpansion`, `MessageDisplay`, or
 `InstructionsLoaded`.
 
+### Portable engine preview
+
+The shared engine requires Python 3.10+ and has no third-party runtime
+dependencies:
+
+```bash
+python3 -m pip install .
+dpi hook deepseek-api --output canonical < tool-call.json
+```
+
+The Codex package vendors this runtime under
+[`packages/codex/plugins/defensive-prompt-injection`](packages/codex/plugins/defensive-prompt-injection/).
+The native `dsh` bundle vendors the same runtime in
+[`packages/deepseek-harness`](packages/deepseek-harness/). CodeWhale, OpenCode,
+and application-owned DeepSeek tool loops use the package instructions in their
+respective directories. Confirm each native gate in the harness UI before
+relying on it.
+
 ## Test
 
-Automated hook tests require Bash and `jq`:
+Run the complete native and harness-neutral suite:
+
+```bash
+./tests/test-all.sh
+```
+
+The Claude Code hook tests require Bash and `jq`:
 
 ```bash
 ./tests/test-hooks.sh
+```
+
+The Python contract suite can also run independently:
+
+```bash
+PYTHONPATH=src python3 -m unittest -v tests/test_core.py
 ```
 
 They validate the manifest, safe no-op behavior, sensitive path detection,

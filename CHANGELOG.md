@@ -4,6 +4,32 @@ All notable changes to this plugin are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project uses [semantic versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Harness-neutral Python policy engine with canonical Action/Decision v1
+  schemas and no third-party runtime dependencies.
+- Shipped-adapter coverage matrix with fail-closed `require_approval` mappings
+  for Claude Code, Codex, OpenCode, the official DeepSeek Harness,
+  CodeWhale/DeepSeek-TUI, and DeepSeek API tool loops.
+- Validated Codex plugin package with `PreToolUse`, session, prompt, subagent,
+  and post-tool hooks plus a concise `trust-boundary` skill.
+- Native DeepSeek Harness Cordis bundle on the blocking `tools/pre-execute`
+  waterfall, pinned to its current developer-preview contract.
+- Experimental OpenCode V2 adapter, CodeWhale hook configuration, and a helper
+  for application-owned DeepSeek function-calling loops.
+- Cross-harness contract tests, adapter response tests, and a runtime-sync
+  check preventing the vendored Codex engine from drifting from the source.
+
+### Changed
+
+- Distinguished the official DeepSeek Harness (`dsh`), the DeepSeek model API,
+  and the independent CodeWhale project formerly named DeepSeek-TUI; the bare
+  `deepseek` adapter alias is now rejected as ambiguous.
+- Defined fail-closed behavior for harnesses that cannot reliably force a user
+  approval prompt.
+
 ## [0.3.0] — 2026-08-16
 
 ### Added

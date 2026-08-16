@@ -10,6 +10,12 @@ feedback.json
 Thumbs.db
 .vscode/
 .idea/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
 
 # logs
 *.log

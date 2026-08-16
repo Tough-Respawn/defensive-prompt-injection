@@ -1,0 +1,4 @@
+interface:
+  display_name: "Trust Boundary"
+  short_description: "Separate untrusted data from user authorization"
+  default_prompt: "Review this operation across the trust boundary before acting."

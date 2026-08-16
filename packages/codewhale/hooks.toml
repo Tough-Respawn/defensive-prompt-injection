@@ -1,0 +1,13 @@
+# Merge these entries into ~/.codewhale/config.toml after installing the `dpi`
+# command. The historical DeepSeek-TUI name uses the same DEEPSEEK_* hook env.
+[hooks]
+enabled = true
+
+[[hooks.hooks]]
+name = "defensive-prompt-injection"
+event = "tool_call_before"
+command = "dpi hook codewhale"
+timeout_secs = 10
+background = false
+continue_on_error = false
+condition = { type = "always" }

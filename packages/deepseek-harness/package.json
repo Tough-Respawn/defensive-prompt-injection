@@ -1,0 +1,34 @@
+{
+  "name": "dsh-defensive-prompt-injection",
+  "version": "0.4.0-dev.0",
+  "description": "Fail-closed prompt-injection action gate for the official DeepSeek Harness",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "cordis.patch.yml",
+    "runtime/dpi/*.py",
+    "README.md",
+    "COMPATIBILITY.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "prompt-injection",
+    "security"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tough-Respawn/defensive-prompt-injection.git",
+    "directory": "packages/deepseek-harness"
+  },
+  "license": "MIT"
+}

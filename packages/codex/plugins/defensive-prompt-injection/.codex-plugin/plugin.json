@@ -1,0 +1,24 @@
+{
+  "name": "defensive-prompt-injection",
+  "version": "0.4.0",
+  "description": "Harness-neutral prompt-injection action gates and trust-boundary guidance for Codex.",
+  "author": {
+    "name": "Amine Harrak"
+  },
+  "homepage": "https://github.com/Tough-Respawn/defensive-prompt-injection",
+  "repository": "https://github.com/Tough-Respawn/defensive-prompt-injection",
+  "license": "MIT",
+  "keywords": ["security", "prompt-injection", "hooks", "trust-boundary"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Defensive Prompt Injection",
+    "shortDescription": "Gate sensitive actions suggested by untrusted content.",
+    "longDescription": "Adds deterministic pre-tool denials and trust-boundary context for repository, tool-output, MCP, web, and delegated-agent prompt injection.",
+    "developerName": "Amine Harrak",
+    "category": "Security",
+    "capabilities": ["Hooks", "Skills"],
+    "defaultPrompt": [
+      "Review this operation across the trust boundary before acting."
+    ]
+  }
+}

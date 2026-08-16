@@ -1,0 +1,72 @@
+{
+  "protocol_version": 1,
+  "matrix_scope": "shipped_adapter_coverage",
+  "harnesses": {
+    "claude-code": {
+      "pre_action": true,
+      "can_deny": true,
+      "can_force_approval": true,
+      "post_result": true,
+      "prompt_context": true,
+      "output_filter": true,
+      "require_approval_fallback": "ask"
+    },
+    "codex": {
+      "pre_action": true,
+      "can_deny": true,
+      "can_force_approval": false,
+      "post_result": true,
+      "prompt_context": true,
+      "output_filter": false,
+      "require_approval_fallback": "deny"
+    },
+    "opencode": {
+      "pre_action": true,
+      "can_deny": true,
+      "can_force_approval": false,
+      "post_result": false,
+      "prompt_context": false,
+      "output_filter": false,
+      "require_approval_fallback": "deny",
+      "notes": "The V2 plugin API is beta."
+    },
+    "codewhale": {
+      "aliases": ["deepseek-tui"],
+      "pre_action": true,
+      "can_deny": true,
+      "can_force_approval": "conditional",
+      "post_result": false,
+      "prompt_context": false,
+      "output_filter": false,
+      "require_approval_fallback": "deny",
+      "notes": "Interactive TUI only. Hooks do not fire in codewhale exec; ask does not downgrade Full Access, so the shipped adapter denies by default."
+    },
+    "deepseek-harness": {
+      "aliases": ["dsh"],
+      "pre_action": true,
+      "can_deny": true,
+      "can_force_approval": "conditional",
+      "post_result": false,
+      "prompt_context": false,
+      "output_filter": false,
+      "require_approval_native_decision": "ask",
+      "require_approval_fallback": "deny",
+      "native_event": "tools/pre-execute",
+      "tested_against": {
+        "repository_commit": "47f943859bef60e4160492346772ded9b24f765a",
+        "dsh_cli_version": "0.1.0-rc.6",
+        "dsh_tools_version": "0.1.0-rc.6"
+      },
+      "notes": "Official DeepSeek Harness developer preview. Its ask decision prompts only under the ask policy; the never policy and an absent or unavailable approval channel deny. Compatibility-breaking changes are expected before a stable release."
+    },
+    "deepseek-api": {
+      "pre_action": "host-provided",
+      "can_deny": "host-provided",
+      "can_force_approval": "host-provided",
+      "post_result": "host-provided",
+      "prompt_context": "host-provided",
+      "output_filter": "host-provided",
+      "require_approval_fallback": "deny"
+    }
+  }
+}
