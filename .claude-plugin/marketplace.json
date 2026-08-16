@@ -9,7 +9,7 @@
       "name": "defensive-prompt-injection",
       "source": "./plugins/defensive-prompt-injection",
       "description": "Defense in depth against repository and tool-output prompt injection, with pre-tool approval gates and provenance controls.",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": {
         "name": "Amine Harrak"
       },

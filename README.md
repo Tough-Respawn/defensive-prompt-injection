@@ -4,11 +4,10 @@ Defense in depth for coding-agent harnesses when repositories, tool results,
 web pages, MCP/LSP servers, subagents, or prompt expansions contain
 instructions that the user did not authorize.
 
-> Experimental. The native Claude Code package is v0.3.0; the harness-neutral
-> v0.4 engine and non-Claude adapters are a development preview. This project
-> reduces prompt-injection risk; it does not make an agent immune. Keep native
-> permissions and sandboxing enabled and treat high-stakes environments as a
-> separate security boundary.
+> Experimental — v0.4.0. The native Claude Code plugin, harness-neutral engine,
+> and cross-harness adapters reduce prompt-injection risk; they do not make an
+> agent immune. Keep native permissions and sandboxing enabled and treat
+> high-stakes environments as a separate security boundary.
 
 ## Why this exists
 
@@ -55,8 +54,8 @@ The layers have different strengths:
 
 ### Harness-neutral engine
 
-The v0.4 development tree separates the deterministic policy from native hook
-wire formats:
+The v0.4 release separates the deterministic policy from native hook wire
+formats:
 
 ```text
 Native hook payload
@@ -74,7 +73,7 @@ allow the action.
 
 | Harness | Adapter | Approval behavior |
 |---|---|---|
-| Claude Code | Native v0.3 plugin; canonical adapter in v0.4 | `require_approval` becomes `ask` |
+| Claude Code | Native plugin and canonical adapter | `require_approval` becomes `ask` |
 | Codex | [`packages/codex`](packages/codex/) | Falls back to `deny` because `PreToolUse` cannot currently force `ask` |
 | OpenCode | [`packages/opencode`](packages/opencode/) | Experimental V2 adapter; blocks when approval is required |
 | DeepSeek Harness (`dsh`) | [`packages/deepseek-harness`](packages/deepseek-harness/) | Native `tools/pre-execute`; uses `ask`, whose unavailable-approval path is denied by the harness |

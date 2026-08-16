@@ -4,4 +4,4 @@ from .model import Action, Decision
 from .policy import evaluate
 
 __all__ = ["Action", "Decision", "evaluate"]
-__version__ = "0.4.0.dev0"
+__version__ = "0.4.0"

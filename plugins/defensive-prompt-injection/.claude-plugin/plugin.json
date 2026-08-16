@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "defensive-prompt-injection",
   "displayName": "Defensive Prompt Injection",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Defense in depth against repository and tool-output prompt injection, with pre-tool approval gates and provenance controls.",
   "author": { "name": "Amine Harrak" },
   "homepage": "https://github.com/Tough-Respawn/defensive-prompt-injection",

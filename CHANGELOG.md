@@ -6,6 +6,8 @@ This project uses [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-08-16
+
 ### Added
 
 - Harness-neutral Python policy engine with canonical Action/Decision v1

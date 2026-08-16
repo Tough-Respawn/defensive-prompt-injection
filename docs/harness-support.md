@@ -27,9 +27,9 @@ repository, not every extension point a harness may expose.
 
 ## Claude Code
 
-Claude Code supports `allow`, `deny`, and `ask` from `PreToolUse`. The existing
-native Bash and PowerShell runtime remains the release implementation while the
-canonical v0.4 adapter is tested for behavioral parity.
+Claude Code supports `allow`, `deny`, and `ask` from `PreToolUse`. The native
+Bash and PowerShell runtime remains the Claude-facing implementation, while the
+canonical adapter is packaged and contract-tested for integration use.
 
 Reference: <https://code.claude.com/docs/en/hooks>
 
