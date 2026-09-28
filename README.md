@@ -2,7 +2,8 @@
 
 Defense in depth for coding-agent harnesses when repositories, tool results,
 web pages, MCP/LSP servers, subagents, or prompt expansions contain
-instructions that the user did not authorize.
+instructions that the user did not authorize, and for chatbots that answer
+questions about uploaded documents such as PDFs.
 
 > Experimental — v0.4.0. The native Claude Code plugin, harness-neutral engine,
 > and cross-harness adapters reduce prompt-injection risk; they do not make an
@@ -85,6 +86,55 @@ Harness (`dsh`). The CodeWhale adapter still covers the independent community
 project formerly named DeepSeek-TUI, while the DeepSeek API adapter covers
 application-owned function-calling loops. The bare adapter name `deepseek` is
 rejected as ambiguous; use `deepseek-harness`, `dsh`, or `deepseek-api`.
+
+## Chatbots that accept documents
+
+A document chatbot has a different attack surface from a coding agent. The
+payload arrives **inside the document** (white or microscopic text, metadata,
+annotations, invisible Unicode), and the goal is usually **the answer**: a false
+statement, a leaked system prompt, or a link or image whose URL carries
+conversation data. `dpi.chat` gives the application three guards around the
+model call:
+
+```text
+PDF upload ──► guard_document() ──► visible text + hidden spans + findings + risk
+                                         │
+prompt     ◄── wrap_untrusted() ─────────┘  nonce-delimited block + system instruction
+                                         │
+answer     ──► guard_output() ──► images/links outside the allowlist removed,
+                                  system-prompt canary leak detected
+```
+
+| Guard | What it does | Kind of defense |
+|---|---|---|
+| `guard_document(data)` | Returns only the text a reader can see. Reports white, microscopic, invisible-render-mode, and off-page glyphs per page; scans metadata, annotations, and form values; flags JavaScript and attachments; fails closed on malformed input. | Deterministic |
+| `scan_text(text)` | English and French injection phrasing, chat-template role markers, exfiltration instructions, decoded Unicode tag-block text. Also usable on RAG passages, e-mails, or web pages. | Heuristic |
+| `wrap_untrusted(text)` | Places the document between markers carrying a per-request random nonce and returns the matching system instruction. | Probabilistic: helps the model, does not bind it |
+| `guard_output(text, allowed_hosts, canary)` | Removes external images, neutralizes links outside the allowlist, detects and redacts a `new_canary()` marker. | Deterministic |
+| `evaluate()` (existing engine) | Gates tool calls if the chatbot can act (send mail, call APIs). | Deterministic |
+
+```bash
+pip install "defensive-prompt-injection[pdf]"
+```
+
+[`examples/chatbot_pipeline.py`](examples/chatbot_pipeline.py) wires the
+guards together for any model provider and any web framework; its behavior is
+covered by [`tests/test_example.py`](tests/test_example.py).
+
+The PDF reader is [pdfminer.six](https://github.com/pdfminer/pdfminer.six),
+which is MIT licensed like this project. AGPL readers were avoided on purpose
+because their network clause is a legal risk for a hosted chatbot.
+
+Limits specific to chatbots:
+
+- Text covered by an image or drawn over by a later shape needs rendering and
+  is not detected. White text on a colored shape is treated as visible.
+- Scanned PDFs have no text layer; if you add OCR, pass its output through
+  `scan_text()` before the model sees it.
+- `scan_text()` is signature-based: a paraphrased or foreign-language
+  instruction can pass. The risk level is a triage signal, not a verdict.
+- `wrap_untrusted()` lowers, but does not remove, the chance that the model
+  follows embedded instructions. The output guard is the deterministic backstop.
 
 ## Claude Code covered surfaces
 
@@ -218,11 +268,16 @@ The Claude Code hook tests require Bash and `jq`:
 ./tests/test-hooks.sh
 ```
 
-The Python contract suite can also run independently:
+The Python suites can also run independently. Install the optional PDF extra to
+run the document-guard tests; without it they are skipped:
 
 ```bash
-PYTHONPATH=src python3 -m unittest -v tests/test_core.py
+python3 -m pip install "pdfminer.six>=20260107"
+python3 -m unittest discover -s tests -p "test_*.py" -v
 ```
+
+GitHub Actions runs the complete suite on Linux and the Python suites on
+Python 3.11 to 3.14 for every push and pull request.
 
 They validate the manifest, safe no-op behavior, sensitive path detection,
 repository-instruction persistence, network and destructive commands, inline
