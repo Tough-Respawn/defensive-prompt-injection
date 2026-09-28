@@ -238,7 +238,7 @@ as `PostToolBatch`, `UserPromptExpansion`, `MessageDisplay`, or
 
 ### Portable engine preview
 
-The shared engine requires Python 3.10+ and has no third-party runtime
+The shared engine requires Python 3.11+ and has no third-party runtime
 dependencies:
 
 ```bash
