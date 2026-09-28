@@ -6,6 +6,36 @@ This project uses [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-09-28
+
+### Added
+
+- `dpi.chat`, guards for chatbots that answer questions about uploaded
+  documents (#7, #9, #11, #13):
+  - `guard_document()` returns only the visible text of a PDF and reports
+    white, microscopic, invisible-render-mode, and off-page glyphs; scans
+    metadata, annotations, and form values; flags JavaScript and attachments;
+    fails closed on malformed or oversized input. Optional `pdf` extra based on
+    the MIT-licensed `pdfminer.six`.
+  - `scan_text()` flags English and French injection phrasing, chat-template
+    role markers, exfiltration instructions, and decoded Unicode tag-block
+    text, with a low/medium/high risk.
+  - `wrap_untrusted()` isolates a document between nonce-delimited markers
+    with a matching system instruction.
+  - `guard_output()` removes external images, neutralizes links outside an
+    allowlist, and detects a system-prompt canary created by `new_canary()`.
+- Provider-agnostic chatbot example with end-to-end tests (#15).
+- GitHub Actions: full suite on Linux (including the PowerShell hook test)
+  and the Python suites on Python 3.11 to 3.14 (#3).
+
+### Fixed
+
+- Security: JSON-escaped Windows paths bypassed the sensitive-path and
+  persistence gates in `guard.ps1` and the Python engine, for example
+  `C:\Users\alice\.aws\credentials` (#5).
+- Security: zero-width, bidi, Unicode tag, fullwidth, and Cyrillic/Greek
+  homoglyph characters hid commands and paths from the policy regexes (#1).
+
 ## [0.4.0] — 2026-08-16
 
 ### Added

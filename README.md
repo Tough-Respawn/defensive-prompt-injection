@@ -5,9 +5,9 @@ web pages, MCP/LSP servers, subagents, or prompt expansions contain
 instructions that the user did not authorize, and for chatbots that answer
 questions about uploaded documents such as PDFs.
 
-> Experimental — v0.4.0. The native Claude Code plugin, harness-neutral engine,
-> and cross-harness adapters reduce prompt-injection risk; they do not make an
-> agent immune. Keep native permissions and sandboxing enabled and treat
+> Experimental — v0.5.0. The native Claude Code plugin, harness-neutral engine,
+> cross-harness adapters, and chatbot document guards reduce prompt-injection
+> risk; they do not make an agent immune. Keep native permissions and sandboxing enabled and treat
 > high-stakes environments as a separate security boundary.
 
 ## Why this exists
