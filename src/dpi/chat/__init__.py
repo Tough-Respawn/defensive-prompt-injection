@@ -7,12 +7,16 @@ and before the model's answer is rendered.
 
 from .output import OutputFinding, OutputResult, guard_output, new_canary
 from .prompt import UntrustedBlock, wrap_untrusted
+from .scan import TextFinding, TextScan, scan_text
 
 __all__ = [
     "OutputFinding",
     "OutputResult",
+    "TextFinding",
+    "TextScan",
     "UntrustedBlock",
     "guard_output",
     "new_canary",
+    "scan_text",
     "wrap_untrusted",
 ]
