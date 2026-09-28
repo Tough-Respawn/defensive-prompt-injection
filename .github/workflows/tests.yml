@@ -41,5 +41,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      # The Linux full-suite job runs without it, covering the optional import.
+      - name: Install the optional PDF reader
+        run: python -m pip install "pdfminer.six>=20260107"
       - name: Run the Python suites
+        env:
+          DPI_REQUIRE_PDF: "1"
         run: python -m unittest discover -s tests -p "test_*.py" -v
