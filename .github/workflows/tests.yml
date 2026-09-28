@@ -1,0 +1,45 @@
+name: tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  full-suite:
+    name: Hooks, engine and adapters (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check tool availability
+        run: |
+          jq --version
+          node --version
+          pwsh --version || echo "pwsh unavailable: PowerShell hook test skipped"
+      - name: Run the complete suite
+        run: ./tests/test-all.sh
+
+  engine:
+    name: Engine on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # tests/test_core.py uses tomllib, available from Python 3.11.
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run the Python contract suite
+        run: python tests/test_core.py -v
