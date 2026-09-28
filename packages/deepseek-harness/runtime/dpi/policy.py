@@ -6,6 +6,7 @@ from collections.abc import Iterable
 from typing import Any
 
 from .model import Action, Decision
+from .textfold import fold
 
 
 SENSITIVE_PATH = re.compile(
@@ -66,12 +67,12 @@ def _normalized(value: Any) -> str:
         text = json.dumps(value, ensure_ascii=False, separators=(",", ":"))
     except (TypeError, ValueError):
         text = str(value)
-    return text.lower().replace("\\", "/")
+    return fold(text).lower().replace("\\", "/")
 
 
 def _strings(value: Any) -> Iterable[str]:
     if isinstance(value, str):
-        yield value
+        yield fold(value)
     elif isinstance(value, dict):
         for nested in value.values():
             yield from _strings(nested)
@@ -184,7 +185,7 @@ def evaluate(action: Action) -> Decision:
         )
 
     text = _normalized(action.arguments)
-    name = action.tool_name
+    name = fold(action.tool_name)
 
     if SENSITIVE_PATH.search(text) or SENSITIVE_NAME.search(name):
         return _approval("sensitive-data", "sensitive-local-data")

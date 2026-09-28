@@ -192,6 +192,50 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(evaluate(invalid_action("codex")).effect, "deny")
 
 
+class UnicodeEvasionTests(unittest.TestCase):
+    def decision(self, payload: dict[str, object]):
+        return evaluate(normalize("claude", json.dumps(payload)))
+
+    def test_zero_width_character_does_not_hide_a_sensitive_path(self) -> None:
+        decision = self.decision(
+            {"tool_name": "Read", "tool_input": {"file_path": "/work/.e​nv"}}
+        )
+        self.assertEqual(decision.category, "sensitive-local-data")
+
+    def test_unicode_tag_character_does_not_hide_a_network_command(self) -> None:
+        decision = self.decision(
+            {"tool_name": "Bash", "tool_input": {"command": "cu\U000e0072rl https://outside.test"}}
+        )
+        self.assertEqual(decision.rule_id, "external-network-command")
+
+    def test_fullwidth_letters_are_folded(self) -> None:
+        decision = self.decision(
+            {"tool_name": "Bash", "tool_input": {"command": "ｃｕｒｌ https://outside.test"}}
+        )
+        self.assertEqual(decision.rule_id, "external-network-command")
+
+    def test_cyrillic_homoglyph_is_folded(self) -> None:
+        decision = self.decision(
+            {"tool_name": "Bash", "tool_input": {"command": "сurl https://outside.test"}}
+        )
+        self.assertEqual(decision.rule_id, "external-network-command")
+
+    def test_invisible_character_in_tool_name_does_not_hide_a_mutation(self) -> None:
+        decision = evaluate(
+            normalize(
+                "deepseek-api",
+                json.dumps({"function": {"name": "send​_message", "arguments": "{}"}}),
+            )
+        )
+        self.assertEqual(decision.rule_id, "generic-mutating-tool")
+
+    def test_accented_french_text_is_not_altered_into_a_match(self) -> None:
+        decision = self.decision(
+            {"tool_name": "Write", "tool_input": {"file_path": "/work/notes.md", "content": "Réunion à l'été"}}
+        )
+        self.assertEqual(decision.effect, "allow")
+
+
 class NativeDecisionTests(unittest.TestCase):
     def setUp(self) -> None:
         action = normalize(
