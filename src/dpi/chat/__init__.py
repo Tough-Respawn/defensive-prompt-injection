@@ -6,5 +6,13 @@ and before the model's answer is rendered.
 """
 
 from .output import OutputFinding, OutputResult, guard_output, new_canary
+from .prompt import UntrustedBlock, wrap_untrusted
 
-__all__ = ["OutputFinding", "OutputResult", "guard_output", "new_canary"]
+__all__ = [
+    "OutputFinding",
+    "OutputResult",
+    "UntrustedBlock",
+    "guard_output",
+    "new_canary",
+    "wrap_untrusted",
+]
