@@ -11,34 +11,37 @@ permissions:
 jobs:
   full-suite:
     name: Hooks, engine and adapters (Linux)
-    runs-on: ubuntu-latest
+    # Pinned instead of ubuntu-latest so image migrations are deliberate.
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
+      # tests/test-hooks.sh skips the PowerShell test when pwsh is absent;
+      # failing here keeps an image change from silently dropping coverage.
       - name: Check tool availability
         run: |
           jq --version
           node --version
-          pwsh --version || echo "pwsh unavailable: PowerShell hook test skipped"
+          pwsh --version
       - name: Run the complete suite
         run: ./tests/test-all.sh
 
   engine:
     name: Engine on Python ${{ matrix.python-version }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
       matrix:
         # tests/test_core.py uses tomllib, available from Python 3.11.
         python-version: ["3.11", "3.12", "3.13", "3.14"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
       # The Linux full-suite job runs without it, covering the optional import.
