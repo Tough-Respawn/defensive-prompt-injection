@@ -6,6 +6,15 @@ This project uses [semantic versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Minimum Python version raised to 3.11: 3.10 was never tested and reaches
+  end of life on 2026-10-31 (#20).
+- CI: GitHub Actions moved to v7 (Node 24 runtime), Node 24 LTS for the
+  DeepSeek Harness test, runners pinned to Ubuntu 26.04, PowerShell required
+  so the hook test cannot be skipped silently, and Dependabot for actions
+  (#18).
+
 ## [0.5.0] — 2026-09-28
 
 ### Added

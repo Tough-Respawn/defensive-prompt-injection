@@ -12,7 +12,7 @@ cancelled, rejected, or unavailable approval channel deny the operation.
 
 ## Install from this checkout
 
-Python 3.10 or newer must be available as `python3` (`py -3` on Windows). From
+Python 3.11 or newer must be available as `python3` (`py -3` on Windows). From
 the repository root:
 
 ```sh

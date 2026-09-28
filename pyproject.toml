@@ -7,7 +7,7 @@ name = "defensive-prompt-injection"
 version = "0.5.0"
 description = "Harness-neutral policy engine for defensive prompt-injection gates"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "MIT"
 authors = [{ name = "Amine Harrak" }]
 dependencies = []
