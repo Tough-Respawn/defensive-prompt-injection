@@ -6,7 +6,7 @@ repo_root="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 cd "$repo_root"
 
 ./tests/test-hooks.sh
-PYTHONPATH=src python3 -m unittest -v tests/test_core.py
+PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_*.py' -v
 
 if command -v node >/dev/null 2>&1; then
   node tests/test-deepseek-harness.mjs
