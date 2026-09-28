@@ -12,6 +12,10 @@ license = "MIT"
 authors = [{ name = "Amine Harrak" }]
 dependencies = []
 
+[project.optional-dependencies]
+# pdfminer.six is MIT licensed; the PDF guard deliberately avoids AGPL readers.
+pdf = ["pdfminer.six>=20260107"]
+
 [project.scripts]
 dpi = "dpi.cli:main"
 
