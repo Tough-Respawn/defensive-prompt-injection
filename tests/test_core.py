@@ -192,6 +192,23 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(evaluate(invalid_action("codex")).effect, "deny")
 
 
+class WindowsPathTests(unittest.TestCase):
+    def decision(self, tool_name: str, path: str):
+        payload = {"tool_name": tool_name, "tool_input": {"file_path": path, "content": "x"}}
+        return evaluate(normalize("claude", json.dumps(payload)))
+
+    def test_windows_credential_path_requires_approval(self) -> None:
+        decision = self.decision("Read", "C:\\Users\\alice\\.aws\\credentials")
+        self.assertEqual(decision.category, "sensitive-local-data")
+
+    def test_windows_settings_write_requires_approval(self) -> None:
+        decision = self.decision("Write", "C:\\work\\.claude\\settings.json")
+        self.assertEqual(decision.rule_id, "protected-persistence")
+
+    def test_windows_ordinary_read_is_allowed(self) -> None:
+        self.assertEqual(self.decision("Read", "C:\\work\\src\\app.py").effect, "allow")
+
+
 class UnicodeEvasionTests(unittest.TestCase):
     def decision(self, payload: dict[str, object]):
         return evaluate(normalize("claude", json.dumps(payload)))

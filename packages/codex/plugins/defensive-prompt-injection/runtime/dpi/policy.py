@@ -67,7 +67,9 @@ def _normalized(value: Any) -> str:
         text = json.dumps(value, ensure_ascii=False, separators=(",", ":"))
     except (TypeError, ValueError):
         text = str(value)
-    return fold(text).lower().replace("\\", "/")
+    # JSON escapes a Windows separator as two backslashes: collapse the pair to
+    # one "/" first, otherwise ".aws\\credentials" becomes ".aws//credentials".
+    return fold(text).lower().replace("\\\\", "/").replace("\\", "/")
 
 
 def _strings(value: Any) -> Iterable[str]:

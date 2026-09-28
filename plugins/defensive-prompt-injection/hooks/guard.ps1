@@ -63,7 +63,9 @@ function Write-Audit([string]$EventName, [string]$Category, [string]$ToolName) {
 
 function Get-NormalizedInput {
     if (-not $rawInput) { return '' }
-    return $rawInput.ToLowerInvariant().Replace('\', '/').Replace('\u002f', '/')
+    # Raw JSON escapes a Windows separator as two backslashes: collapse the pair
+    # to one "/" first, otherwise ".aws\\credentials" becomes ".aws//credentials".
+    return $rawInput.ToLowerInvariant().Replace('\u002f', '/').Replace('\\', '/').Replace('\', '/')
 }
 
 function Test-SensitivePath([string]$Text) {

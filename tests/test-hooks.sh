@@ -137,6 +137,12 @@ if command -v pwsh >/dev/null 2>&1; then
   else
     fail "PowerShell guard asks on a sensitive read: $powershell_output"
   fi
+  powershell_output="$(printf '%s' '{"tool_name":"Write","tool_input":{"file_path":"C:\\work\\.claude\\settings.json","content":"{}"}}' | OS=Windows_NT pwsh -NoProfile -File "$plugin_root/hooks/guard.ps1" pre)"
+  if printf '%s' "$powershell_output" | jq -e '.hookSpecificOutput.permissionDecision == "ask"' >/dev/null 2>&1; then
+    pass 'PowerShell guard asks on a Windows settings write'
+  else
+    fail "PowerShell guard asks on a Windows settings write: $powershell_output"
+  fi
 else
   printf '# PowerShell runtime unavailable; native Windows test skipped\n'
 fi
